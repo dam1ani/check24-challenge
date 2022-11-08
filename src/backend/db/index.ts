@@ -20,13 +20,46 @@ export const connect = () => {
   connection = mysql.createConnection(config);
 }
 
-export const firstFiveHotels = () => {
-  connection.query(
-    'SELECT * FROM `hotels` LIMIT 5;',
-    function (err, results, fields) {
-      console.log(err);
-      console.log(results); // results contains rows returned by server
-      console.log(fields); // fields contains extra meta data about results, if available
+export const countHotels = () => new Promise<number>((resolve, reject) =>
+  connection.query<any[]>(
+    'SELECT count(*) FROM `hotels`;',
+    function (err, results) {
+      if (err || !results[0] || !results[0]['count(*)']) {
+        reject(err);
+        return;
+      }
+
+      resolve(results[0]['count(*)']);
     }
-  );
-}
+  )
+)
+
+export const getMinPrice = () => new Promise<number>((resolve, reject) =>
+  connection.query<any[]>(
+    'SELECT min(price) FROM `cleanoffers`;',
+    function (err, results) {
+      if (err || !results[0] || !results[0]['min(price)']) {
+        reject(err);
+        return;
+      }
+
+      resolve(results[0]['min(price)']);
+    }
+  )
+)
+
+
+export const countOffers = () => new Promise<number>((resolve, reject) =>
+  connection.query<any[]>(
+    'SELECT max(id) FROM `cleanoffers`;',
+    function (err, results) {
+      const maxId = results?.[0]?.['max(id)'];
+      if (err || !maxId) {
+        reject(err);
+        return;
+      }
+
+      resolve(maxId);
+    }
+  )
+)
