@@ -5,6 +5,10 @@
     "module": "commonjs",
     "noEmit": false
   },
-  "include": ["src/*.ts"],
-  "exclude": ["src/app"]
+  "include": [
+    "src/backend/*.ts"
+  ],
+  "exclude": [
+    "src/frontend"
+  ]
 }
