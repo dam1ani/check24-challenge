@@ -17,9 +17,6 @@
       "node"
     ],
     "noEmit": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
     "jsx": "react",
     "allowJs": false,
     "isolatedModules": true,
