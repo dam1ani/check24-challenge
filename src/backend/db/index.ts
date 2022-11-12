@@ -18,6 +18,8 @@ const config: mysql.ConnectionOptions = {
 // create the connection to database
 let connection: mysql.Connection;
 
+const convertDate = (date: Date) => date.toISOString().slice(0, 19).replace('T', ' ');
+
 export const connect = () => {
   connection = mysql.createConnection(config);
 }
@@ -67,8 +69,21 @@ export const countOffers = () => new Promise<number>((resolve, reject) =>
 );
 
 export const queryHotels = (query: z.infer<typeof hotelsBody>) => new Promise<any[]>((resolve, reject) => {
+  const {adults, kids, from, to, days, airport, page} = query
+  
   connection.query<any[]>(
-    `SELECT * FROM \`hotels\` INNER JOIN ;`,
+    `select * 
+    from Hotels a 
+    inner join (
+      select hotelid, min(price) as minhotprice 
+      from cleanoffers 
+      where countadults = ${adults} and countchildren = ${kids} 
+        and departuredate >= '${convertDate(from)}' and returndate <= '${convertDate(to)}' 
+        and inboundarrivalairport='${airport}' and days = '${days}'
+      group by hotelid
+    ) b on a.id= b.hotelid 
+    order by minhotprice 
+    limit 25 offset ${(page - 1) * 25};`,
     function (err, results) {
 
       if (err) {
@@ -79,6 +94,33 @@ export const queryHotels = (query: z.infer<typeof hotelsBody>) => new Promise<an
       resolve(results);
     }
   )
-})
+});
+
+
+
+export const queryOffers = (query: z.infer<typeof hotelsBody>, hotelid: number) => new Promise<any[]>((resolve, reject) => {
+  const {adults, kids, from, to, days, airport, page} = query
+  
+  connection.query<any[]>(
+    `select * 
+    from cleanoffers 
+    where countadults = ${adults} and countchildren = ${kids} 
+      and departuredate >= '${convertDate(from)}' and returndate <= '${convertDate(to)}' 
+      and inboundarrivalairport='${airport}' and days = '${days}'
+      and hotelid = ${hotelid}
+    order by price    
+    limit 25 offset ${(page - 1) * 25};`,
+    function (err, results) {
+
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      resolve(results);
+    }
+  )
+});
+
 
 //select * from Hotels a inner join (select hotelid, min(price) as minhotprice from CleanOffer group by hotelid) b on a.id= b.hotelid order by minhotprice limit 10;

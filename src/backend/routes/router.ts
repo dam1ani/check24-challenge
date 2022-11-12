@@ -1,5 +1,5 @@
 import express from 'express';
-import { TypedRequestBody, validateRequest } from 'zod-express-middleware';
+import { processRequestQuery, TypedRequestBody, TypedRequestQuery, validateRequest, validateRequestQuery } from 'zod-express-middleware';
 import { countHotels, countOffers, getMinPrice, queryHotels } from '../db';
 import { hotelsBody } from '../schemas';
 
@@ -13,15 +13,25 @@ router
     const [count, min, nrOffers] = await Promise.all([countP, minP, nrOffersP]);
     res.status(200).json({ message: `There are ${count} hotels, with the lowest offer costing \$${min} from ${nrOffers} total offers` });
   })
-  .post(
+  .get(
     '/get-hotels',
-    validateRequest({
-      body: hotelsBody
-    }),
-    async (req: TypedRequestBody<typeof hotelsBody>, res) => {
+    //validateRequestQuery(hotelsBody),
+    async (req, res) => {
       try {
-        const hotelsWithFirstOffer = await queryHotels(req.body);
-        res.status(200).send(hotelsWithFirstOffer);
+        console.log(req.query);
+        const {adults, kids, from, to, days, airport, page} = req.query
+        const parsed = {
+          adults: Number(adults),
+          kids: Number(kids),
+          from: new Date(from as string),
+          to: new Date(to as string),
+          days: Number(days),
+          airport: String(airport),
+          page: Number(page)
+        }
+        const validated = hotelsBody.parse(parsed);
+        const hotelsWithFirstOffer = await queryHotels(parsed);
+        res.status(200).json(hotelsWithFirstOffer);
       } catch (e) {
         res.status(500).send(e);
       }
