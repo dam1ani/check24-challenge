@@ -10,3 +10,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.adder-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adder-input {
+  all: unset;
+  padding: 5px;
+  width: 40px;
+  height: 20px;
+  background: none;
+  border: none;
+  outline: none;
+
+  text-align: center;
+}

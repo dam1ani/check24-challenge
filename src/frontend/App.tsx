@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Search from './components/Search';
 
 function App(): JSX.Element {
   const [count, setCount] = useState<number>(0);
@@ -19,10 +20,7 @@ function App(): JSX.Element {
   }, [])
   return (
     <>
-      <div>
-        <h1>Welcome</h1>
-        <h2>MSG: {msg}</h2>
-      </div>
+      <Search />
     </>
   );
 }
