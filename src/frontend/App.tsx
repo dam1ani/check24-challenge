@@ -1,3 +1,4 @@
+import Grid from '@mui/material/Grid';
 import React, { useEffect, useState } from 'react';
 import Search from './components/Search';
 
@@ -20,7 +21,16 @@ function App(): JSX.Element {
   }, [])
   return (
     <>
-      <Search />
+      <Grid container spacing={2} height='100%'>
+        <Grid container xs={4}
+          justifyContent="center"
+          alignItems="center">
+          <Search />
+        </Grid>
+        <Grid item xs={8}>
+          <Search />
+        </Grid>
+      </Grid>
     </>
   );
 }
