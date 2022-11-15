@@ -1,6 +1,12 @@
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
 import Search from './components/Search';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function App(): JSX.Element {
   const [count, setCount] = useState<number>(0);
@@ -22,13 +28,36 @@ function App(): JSX.Element {
   return (
     <>
       <Grid container spacing={2} height='100%'>
-        <Grid container xs={4}
-          justifyContent="center"
-          alignItems="center">
-          <Search />
+        <Grid item xs={4}>
+          <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', height: '100%' }}>
+            <Search />
+          </div>
         </Grid>
-        <Grid item xs={8}>
-          <Search />
+        <Grid item xs={8} style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
+          {[...Array(25).keys()].map((h, i) => (
+            <div style={{ padding: 20 }}>
+              <Card sx={{ display: 'flex' }} key={i} >
+                <CardMedia
+                  component="img"
+                  sx={{ width: 151 }}
+                  image="https://mui.com/static/images/cards/live-from-space.jpg"
+                  alt="Live from space album cover"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Hotel {i}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Lizards are a widespread group of squamate reptiles, with over 6,000
+                    species, ranging across all continents except Antarctica
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <ExpandMoreIcon />
+                </CardActions>
+              </Card>
+            </div>
+          ))}
         </Grid>
       </Grid>
     </>
