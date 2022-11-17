@@ -1,41 +1,32 @@
-import Button from "@mui/material/Button"
-import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
-import CardContent from "@mui/material/CardContent"
-import CardMedia from "@mui/material/CardMedia"
-import Typography from "@mui/material/Typography"
 import React from "react"
+import { Hotel } from "../model/Hotel"
+import { HotelCard } from "./HotelCard"
 
 interface HotelsProps {
   onViewOffers: () => void;
 }
 
 export const Hotels: React.FC<HotelsProps> = ({ onViewOffers }) => {
+  const hotel: Hotel = {
+    id: 1,
+    coordinates: {
+      x: 0,
+      y: 0,
+    },
+    latitude: 0,
+    longitude: 0,
+    category_stars: 3.5,
+    minhotprice: 132,
+    name: 'HOTELO'
+  }
   return (
     <>
       {[...Array(25).keys()].map((h, i) => (
-        <div style={{ padding: 20 }}>
-          <Card sx={{ display: 'flex' }} key={i} >
-            <CardMedia
-              component="img"
-              sx={{ width: 151 }}
-              image="https://mui.com/static/images/cards/live-from-space.jpg"
-              alt="Live from space album cover"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Hotel {i}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button onClick={onViewOffers}>View Offers</Button>
-            </CardActions>
-          </Card>
-        </div>
+        <HotelCard
+          onViewOffers={onViewOffers}
+          hotel={hotel}
+          key={i}
+        />
       ))}
     </>
   )
