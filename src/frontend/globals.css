@@ -40,3 +40,14 @@ code {
 
   text-align: center;
 }
+
+
+#price {
+  font: 24px/1.2 Verdana, Arial, Helvetica, Sans-Serif;
+  color: #333333;
+  text-align: center;
+}
+
+#cashButton {
+  float: right;
+}

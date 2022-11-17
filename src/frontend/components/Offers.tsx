@@ -15,10 +15,10 @@ export const Offers: React.FC = () => {
               returnDate={new Date()}
               departure={new Date()}
               airport={'Munich'}
-              mealtype="Meal"
+              mealtype="none"
               roomtype="Room"
               oceanview={false}
-              price={123}
+              price={527}
             />
           </Grid>))}
       </Grid>
