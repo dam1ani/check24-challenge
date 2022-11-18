@@ -32,14 +32,14 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
       <br />
       <Link href={`https://www.google.com/maps/place/${latitude},${longitude}`} target="_blank"><LocationOnIcon /> Location</Link>
     </CardContent>
-    <CardActions >
-      <Typography variant="body2" color="text.secondary" sx={{ fontSize: 'h4.fontSize', ml: 20 }}>
+    <CardActions style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <Typography variant="body2" color="text.secondary" sx={{ fontSize: 'h4.fontSize' }}>
         <p>ab <b>{minhotprice}€</b></p>
       </Typography>
 
 
 
-      <Button onClick={onViewOffers} sx={{ ml: 40 }}>View Offers</Button>
+      <Button onClick={onViewOffers} >View Offers</Button>
 
     </CardActions>
   </Card >

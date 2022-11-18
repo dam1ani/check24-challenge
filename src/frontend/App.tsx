@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Search from './components/Search';
 import { Hotels } from './components/Hotels';
 import { Offers } from './components/Offers';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 
 
 function App(): JSX.Element {
@@ -31,8 +35,25 @@ function App(): JSX.Element {
             <Search />
           </div>
         </Grid>
-        <Grid item xs={8} style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
-          {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} />}
+        <Grid item xs={8} style={{ overflow: 'hidden', height: '100%' }}>
+          <Paper style={{ margin: 20, padding: 20 }}>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link underline="hover" color="inherit" href="/">
+                Hotels
+              </Link>
+              <Link
+                underline="hover"
+                color="inherit"
+                href="/material-ui/getting-started/installation/"
+              >
+                Core
+              </Link>
+              <Typography color="text.primary">Breadcrumbs</Typography>
+            </Breadcrumbs>
+          </Paper>
+          <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
+            {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} />}
+          </div>
         </Grid>
       </Grid>
     </>
