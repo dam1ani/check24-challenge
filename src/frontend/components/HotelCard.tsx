@@ -19,7 +19,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
   <Card sx={{ display: 'flex' }} style={{ margin: 20 }}>
     <CardMedia
       component="img"
-      sx={{ width: 151 }}
+      sx={{ width: 1 / 2 }}
       image="https://mui.com/static/images/cards/live-from-space.jpg"
     />
     <CardContent>
@@ -31,7 +31,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
       <Link href={`https://www.google.com/maps/place/${latitude},${longitude}`} target="_blank"><LocationOnIcon /> Location</Link>
     </CardContent>
     <CardActions>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="text.secondary" sx={{ fontSize: 'h6.fontSize' }}>
         ab <b>{minhotprice}</b>
       </Typography>
       <Button onClick={onViewOffers}>View Offers</Button>
