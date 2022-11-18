@@ -7,13 +7,12 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import { SearchParams } from './model/Hotel';
+import { Hotel, SearchParams } from './model/Hotel';
 
 
 function App(): JSX.Element {
   const [showOffers, setShowOffers] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(0);
-  const [msg, setMsg] = useState('');
+  const [hotels, setHotels] = useState<Hotel[]>([]);
   const [searchParams, setSearchParams] = useState<SearchParams>({
     adults: 0,
     kids: 0,
@@ -37,6 +36,10 @@ function App(): JSX.Element {
       r.json().then(j => console.log(j))
     })
   }, [])
+
+  const onSearch = async () => {
+    setHotels(await getHotels(searchParams))
+  }
   return (
     <>
       <Grid container spacing={2} height='100%' justifyContent={'space-evenly'}>
@@ -45,7 +48,7 @@ function App(): JSX.Element {
             <Search
               searchParams={searchParams}
               setSearch={setSearchParams}
-              onSearch={() => console.log(searchParams)}
+              onSearch={onSearch}
             />
           </div>
         </Grid>
@@ -66,7 +69,7 @@ function App(): JSX.Element {
             </Breadcrumbs>
           </Paper>
           <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '80%' }}>
-            {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} />}
+            {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} hotels={hotels} />}
           </div>
         </Grid>
       </Grid>
@@ -75,3 +78,17 @@ function App(): JSX.Element {
 }
 
 export default App;
+async function getHotels(searchParams: SearchParams): Promise<Hotel[]> {
+  const { adults, kids, from, to, page, airport, days } = searchParams;
+  const params = new URLSearchParams({
+    adults: String(adults),
+    kids: String(kids),
+    from: from.toISOString(),
+    to: to.toISOString(),
+    airport,
+    days: String(days),
+    page: String(page)
+  });
+  return (await fetch('/api/get-hotels?' + params.toString())).json();
+}
+

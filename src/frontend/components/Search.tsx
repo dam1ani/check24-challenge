@@ -49,7 +49,7 @@ const Search: React.FC<SearchProps> = ({ searchParams, onSearch, setSearch }) =>
               ...searchParams,
               from: new Date(d!)
             })}
-            minDate={new Date()}
+            minDate={new Date('2016-08-04 16:00:00')}
           />
           <DatePicker
             value={searchParams.to}

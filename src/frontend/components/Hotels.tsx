@@ -3,10 +3,11 @@ import { Hotel } from "../model/Hotel"
 import { HotelCard } from "./HotelCard"
 
 interface HotelsProps {
+  hotels?: Hotel[]
   onViewOffers: () => void;
 }
 
-export const Hotels: React.FC<HotelsProps> = ({ onViewOffers }) => {
+export const Hotels: React.FC<HotelsProps> = ({ hotels, onViewOffers }) => {
   const hotel: Hotel = {
     id: 1,
     coordinates: {
@@ -21,10 +22,10 @@ export const Hotels: React.FC<HotelsProps> = ({ onViewOffers }) => {
   }
   return (
     <>
-      {[...Array(25).keys()].map((h, i) => (
+      {hotels && hotels.map((h, i) => (
         <HotelCard
           onViewOffers={onViewOffers}
-          hotel={hotel}
+          hotel={h}
           key={i}
         />
       ))}

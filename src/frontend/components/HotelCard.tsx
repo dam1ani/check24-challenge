@@ -34,7 +34,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
     </CardContent>
     <CardActions style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
       <Typography variant="body2" color="text.secondary" sx={{ fontSize: 'h4.fontSize' }}>
-        <p>ab <b>{minhotprice}€</b></p>
+        ab <b>{minhotprice}€</b>
       </Typography>
 
 
