@@ -31,8 +31,8 @@ function App(): JSX.Element {
             <Search />
           </div>
         </Grid>
-        <Grid item xs={6} style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
-          {true ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} />}
+        <Grid item xs={8} style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
+          {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} />}
         </Grid>
       </Grid>
     </>

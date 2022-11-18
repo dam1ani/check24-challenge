@@ -9,6 +9,8 @@ import { Hotel } from '../model/Hotel';
 import Rating from '@mui/material/Rating';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 interface HotelCardProps {
   hotel: Hotel;
@@ -19,7 +21,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
   <Card sx={{ display: 'flex' }} style={{ margin: 20 }}>
     <CardMedia
       component="img"
-      sx={{ width: 1 / 2 }}
+      sx={{ width: 1 / 4 }}
       image="https://mui.com/static/images/cards/live-from-space.jpg"
     />
     <CardContent>
@@ -30,11 +32,15 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
       <br />
       <Link href={`https://www.google.com/maps/place/${latitude},${longitude}`} target="_blank"><LocationOnIcon /> Location</Link>
     </CardContent>
-    <CardActions>
-      <Typography variant="body2" color="text.secondary" sx={{ fontSize: 'h6.fontSize' }}>
-        ab <b>{minhotprice}</b>
+    <CardActions >
+      <Typography variant="body2" color="text.secondary" sx={{ fontSize: 'h4.fontSize', ml: 20 }}>
+        <p>ab <b>{minhotprice}€</b></p>
       </Typography>
-      <Button onClick={onViewOffers}>View Offers</Button>
+
+
+
+      <Button onClick={onViewOffers} sx={{ ml: 40 }}>View Offers</Button>
+
     </CardActions>
-  </Card>
+  </Card >
 )
