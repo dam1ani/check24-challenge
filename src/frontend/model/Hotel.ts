@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { hotelsBody } from "../../backend/schemas";
+
 export interface Hotel {
   category_stars: number;
   coordinates: {
@@ -10,3 +13,5 @@ export interface Hotel {
   minhotprice: number;
   name: string;
 }
+
+export type SearchParams = z.infer<typeof hotelsBody>;

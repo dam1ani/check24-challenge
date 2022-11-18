@@ -7,12 +7,22 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import { SearchParams } from './model/Hotel';
 
 
 function App(): JSX.Element {
   const [showOffers, setShowOffers] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [msg, setMsg] = useState('');
+  const [searchParams, setSearchParams] = useState<SearchParams>({
+    adults: 0,
+    kids: 0,
+    airport: 'MUC',
+    from: new Date(),
+    to: new Date(),
+    days: 1,
+    page: 1
+  });
   useEffect(() => {
     const params = new URLSearchParams({
       adults: String(3),
@@ -32,7 +42,11 @@ function App(): JSX.Element {
       <Grid container spacing={2} height='100%' justifyContent={'space-evenly'}>
         <Grid item xs={4}>
           <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', height: '100%' }}>
-            <Search />
+            <Search
+              searchParams={searchParams}
+              setSearch={setSearchParams}
+              onSearch={() => console.log(searchParams)}
+            />
           </div>
         </Grid>
         <Grid item xs={8} style={{ overflow: 'hidden', height: '100%' }}>
@@ -51,7 +65,7 @@ function App(): JSX.Element {
               <Typography color="text.primary">Breadcrumbs</Typography>
             </Breadcrumbs>
           </Paper>
-          <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '100%' }}>
+          <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '80%' }}>
             {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} />}
           </div>
         </Grid>

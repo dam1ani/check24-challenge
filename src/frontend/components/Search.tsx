@@ -7,8 +7,16 @@ import { AIRPORTS } from './constants';
 import Adder from './Counter';
 import DatePicker from './DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
+import { SearchParams } from '../model/Hotel';
 
-const Search = () => {
+interface SearchProps {
+  searchParams: SearchParams;
+  setSearch: (params: SearchParams) => void;
+  onSearch: () => void;
+}
+
+const Search: React.FC<SearchProps> = ({ searchParams, onSearch, setSearch }) => {
+  const airportOption = AIRPORTS.find(a => a.code === searchParams.airport);
   return (
     <Paper style={{ width: 335 }}>
       <form style={{ padding: 10 }}>
@@ -24,22 +32,33 @@ const Search = () => {
             style={{ width: 150 }}
             size='small'
             options={AIRPORTS}
+            value={airportOption!}
+            onChange={(e, newValue) => newValue && setSearch({
+              ...searchParams,
+              airport: newValue.code
+            })}
             renderInput={(params) => <TextField {...params} label='Airport' style={{ width: 150 }} size="small" />}
           />
         </div>
         <br />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <DatePicker
-            value={new Date()}
+            value={searchParams.from}
             label="Earliest departure"
-            onChange={() => { }}
+            onChange={(d) => setSearch({
+              ...searchParams,
+              from: new Date(d!)
+            })}
             minDate={new Date()}
           />
           <DatePicker
-            value={new Date()}
+            value={searchParams.to}
             label="Latest return"
-            onChange={() => { }}
-            minDate={new Date()}
+            onChange={(d) => setSearch({
+              ...searchParams,
+              to: new Date(d!)
+            })}
+            minDate={searchParams.from}
           />
         </div>
         <br />
@@ -48,25 +67,34 @@ const Search = () => {
         <Adder
           min={1}
           label="Days"
-          onChange={() => { }}
-          value={1}
+          onChange={(n) => setSearch({
+            ...searchParams,
+            days: n
+          })}
+          value={searchParams.days}
         />
 
         <p style={{ borderBottom: '1px solid lightgrey', fontWeight: 'bold', margin: 0 }}>Travellers</p>
         <Adder
           min={1}
           label="Adults"
-          onChange={() => { }}
-          value={1}
+          onChange={(adults) => setSearch({
+            ...searchParams,
+            adults
+          })}
+          value={searchParams.adults}
         />
         <Adder
           min={0}
           label="Kids"
-          onChange={() => { }}
-          value={3}
+          onChange={(kids) => setSearch({
+            ...searchParams,
+            kids
+          })}
+          value={searchParams.kids}
         />
         <br />
-        <Button variant='contained' fullWidth endIcon={<SearchIcon />}>Submit</Button>
+        <Button variant='contained' fullWidth endIcon={<SearchIcon />} onClick={onSearch}>Search</Button>
       </form>
     </Paper>
   )
