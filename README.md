@@ -4,9 +4,9 @@
 
 
 ### Technologies used
-1.Database -> Azure MySql Server
-2.Backend -> Node.js, Express.js
-3.Frontend -> React with MaterialUI
+1. Database -> Azure MySql Server
+2. Backend -> Node.js, Express.js
+3. Frontend -> React with MaterialUI
 
 ### Installation
 1. Clone this repository: https://github.com/dam1ani/check24-challenge.git
