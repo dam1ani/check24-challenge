@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import mysql from 'mysql2';
 import { z } from 'zod';
 import { hotelsBody } from '../schemas';
+import { cert } from './constant';
 
 const { DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT, DB_CERT } = process.env;
 
@@ -12,7 +13,7 @@ const config: mysql.ConnectionOptions = {
   database: DB_NAME,
   port: Number(DB_PORT),
   ssl: {
-    ca: fs.readFileSync(String(DB_CERT)).toString()
+    ca: cert
   }
 };
 // create the connection to database
