@@ -14,10 +14,10 @@ import Grid from '@mui/material/Grid';
 
 interface HotelCardProps {
   hotel: Hotel;
-  onViewOffers: () => void;
+  onViewOffers: (hotelid: number) => void;
 }
 
-export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_stars, minhotprice, latitude, longitude }, onViewOffers }) => (
+export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_stars, minhotprice, latitude, longitude, id }, onViewOffers }) => (
   <Card sx={{ display: 'flex' }} style={{ margin: 20 }}>
     <CardMedia
       component="img"
@@ -39,7 +39,7 @@ export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_st
 
 
 
-      <Button onClick={onViewOffers} >View Offers</Button>
+      <Button onClick={() => onViewOffers(id)} >View Offers</Button>
 
     </CardActions>
   </Card >

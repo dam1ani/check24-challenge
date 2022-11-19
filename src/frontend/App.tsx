@@ -8,13 +8,15 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { Hotel, SearchParams } from './model/Hotel';
+import { Offer } from './model/Offer';
 
 
 function App(): JSX.Element {
   const [showOffers, setShowOffers] = useState<boolean>(false);
   const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [offers, setOffers] = useState<Offer[]>([]);
   const [searchParams, setSearchParams] = useState<SearchParams>({
-    adults: 0,
+    adults: 1,
     kids: 0,
     airport: 'MUC',
     from: new Date(),
@@ -22,24 +24,14 @@ function App(): JSX.Element {
     days: 1,
     page: 1
   });
-  useEffect(() => {
-    const params = new URLSearchParams({
-      adults: String(3),
-      kids: String(1),
-      from: new Date('2022-08-04 16:00:00').toISOString(),
-      to: new Date('2022-09-03 06:15:00').toISOString(),
-      airport: 'MUC',
-      days: String(6),
-      page: String(1),
-      hotelid: String(221)
-    })
-    fetch('/api/get-Offers?' + params.toString()).then(r => {
-      r.json().then(j => console.log(j))
-    })
-  }, [])
 
   const onSearch = async () => {
     setHotels(await getHotels(searchParams))
+  }
+
+  const showHotelOffers = async (hotelid: number) => {
+    setOffers(await getOffers(searchParams, hotelid));
+    setShowOffers(true);
   }
   return (
     <>
@@ -70,7 +62,7 @@ function App(): JSX.Element {
             </Breadcrumbs>
           </Paper>
           <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '80%' }}>
-            {false ? <Offers /> : <Hotels onViewOffers={() => setShowOffers(true)} hotels={hotels} />}
+            {showOffers ? <Offers offers={offers} /> : <Hotels onViewOffers={showHotelOffers} hotels={hotels} />}
           </div>
         </Grid>
       </Grid>
@@ -93,3 +85,24 @@ async function getHotels(searchParams: SearchParams): Promise<Hotel[]> {
   return (await fetch('/api/get-hotels?' + params.toString())).json();
 }
 
+
+async function getOffers(searchParams: SearchParams, hotelid: number): Promise<Offer[]> {
+  const { adults, kids, from, to, page, airport, days } = searchParams;
+  const params = new URLSearchParams({
+    adults: String(adults),
+    kids: String(kids),
+    from: from.toISOString(),
+    to: to.toISOString(),
+    airport,
+    days: String(days),
+    page: String(page),
+    hotelid: String(hotelid)
+  });
+  const offersNotCool: any[] = await (await fetch('/api/get-offers?' + params.toString())).json();
+
+  return offersNotCool.map((o: any) => ({
+    ...o,
+    returnDate: new Date(o.returndate),
+    departureDate: new Date(o.departuredate)
+  }))
+}

@@ -4,7 +4,7 @@ import { HotelCard } from "./HotelCard"
 
 interface HotelsProps {
   hotels?: Hotel[]
-  onViewOffers: () => void;
+  onViewOffers: (hotelid: number) => void;
 }
 
 export const Hotels: React.FC<HotelsProps> = ({ hotels, onViewOffers }) => {

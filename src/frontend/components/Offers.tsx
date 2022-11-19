@@ -1,24 +1,29 @@
 import React from "react"
 import Grid from "@mui/material/Grid";
 import { OfferCard } from "./OfferCard";
+import { Offer } from "../model/Offer";
 
-export const Offers: React.FC = () => {
+interface OffersProps {
+  offers: Offer[];
+}
+
+export const Offers: React.FC<OffersProps> = ({ offers }) => {
   return (
     <>
       <Grid container>
-        {[...Array(24).keys()].map((h, i) => (
-          <Grid item xs={4}>
+        {offers.map((h, i) => (
+          <Grid item xs={4} key={i}>
             <OfferCard
-              days={7}
-              children={2}
-              adults={3}
-              returnDate={new Date()}
-              departure={new Date()}
-              airport={'Munich'}
-              mealtype="none"
-              roomtype="Room"
-              oceanview={false}
-              price={527}
+              days={h.days}
+              children={h.children}
+              adults={h.adults}
+              returnDate={h.returnDate}
+              departure={h.departureDate}
+              airport={h.airport}
+              mealtype={h.mealtype}
+              roomtype={h.roomtype}
+              oceanview={h.oceanview}
+              price={h.price}
             />
           </Grid>))}
       </Grid>

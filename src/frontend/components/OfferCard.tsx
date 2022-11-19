@@ -28,7 +28,7 @@ export const OfferCard: React.FC<OfferCardProps> =
     <Paper style={{ padding: 10, margin: 20, display: 'flex', flexDirection: 'row' }}>
       <Grid container>
         <Grid item xs={7}>
-          <p><b>{days} Tage ab München</b></p>
+          <p><b>{days} Tage ab {airport}</b></p>
           <FlightLandIcon /> <span>{departure.toDateString()}</span>
           <br />
           <FlightTakeoffIcon /> <span>{returnDate.toDateString()}</span>
