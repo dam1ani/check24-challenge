@@ -29,7 +29,7 @@
 
 1. Pagination
 
-### Live Build
+### Live Build hosted on Railway
 https://check24-challenge.up.railway.app/
 
 
