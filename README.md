@@ -1,9 +1,9 @@
 # README
 
-##Holiday challenge 2022
+## Holiday challenge 2022
 
 
-###Technologies used
+### Technologies used
 Database -> Azure MySql Server
 Backend -> Node.js, Express.js
 Frontend -> React with MaterialUI
