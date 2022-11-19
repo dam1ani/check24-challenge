@@ -38,7 +38,7 @@ export const OfferCard: React.FC<OfferCardProps> =
             <span style={{ verticalAlign: "middle" }}> {mealtype} </span>
           </Typography>
           <Typography>
-            <BedroomParentOutlinedIcon style={{ verticalAlign: "middle" }} /> <span style={{ verticalAlign: "middle" }}> {roomtype} space for {adults} </span>
+            <BedroomParentOutlinedIcon style={{ verticalAlign: "middle" }} /> <span style={{ verticalAlign: "middle" }}> {roomtype} </span>
           </Typography>
 
           <Typography>
