@@ -9,33 +9,67 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { Hotel, SearchParams } from './model/Hotel';
 import { Offer } from './model/Offer';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 function App(): JSX.Element {
-  const [showOffers, setShowOffers] = useState<boolean>(false);
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [selectedHotel, setSelectedHotel] = useState<string>('');
+  const [resultsState, setResultsState] = useState<'loading' | 'offers' | 'hotels' | 'empty'>('hotels');
+
+  const fiveDaysInTheFuture = new Date();
+  fiveDaysInTheFuture.setDate(fiveDaysInTheFuture.getDate() + 5);
   const [searchParams, setSearchParams] = useState<SearchParams>({
     adults: 1,
     kids: 0,
     airport: 'MUC',
     from: new Date(),
-    to: new Date(),
+    to: fiveDaysInTheFuture,
     days: 1,
     page: 1
   });
 
   const onSearch = async () => {
-    setHotels(await getHotels(searchParams))
+    setResultsState('loading');
+    const hotels = await getHotels(searchParams);
+    setHotels(hotels);
+    if (hotels.length < 1) {
+      setResultsState('empty')
+      return;
+    }
+    setResultsState('hotels');
   }
 
   const showHotelOffers = async (hotelid: number) => {
+    setResultsState('loading');
     setOffers(await getOffers(searchParams, hotelid));
     const hotel = hotels.find(h => h.id === hotelid);
     if (hotel) setSelectedHotel(hotel.name)
-    setShowOffers(true);
+    setResultsState('offers');
   }
+
+  const renderResults = () => {
+    switch (resultsState) {
+      case 'hotels':
+        return <Hotels onViewOffers={showHotelOffers} hotels={hotels} />
+      case 'offers':
+        return <Offers offers={offers} />
+      case 'loading':
+        return <div style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <CircularProgress size={60} />
+        </div>;
+      case 'empty':
+        return <div style={{ color: 'white', margin: 20 }}><h1 color='white'>No hotels found</h1></div>;
+    }
+  }
+
   return (
     <>
       <Grid container spacing={2} height='100%' justifyContent={'space-evenly'}>
@@ -51,7 +85,7 @@ function App(): JSX.Element {
         <Grid item xs={8} style={{ overflow: 'hidden', height: '100%' }}>
           <Paper style={{ margin: 20, padding: 20 }}>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" onClick={() => setShowOffers(false)}>
+              <Link underline="hover" color="inherit" onClick={() => setResultsState('hotels')}>
                 Hotels
               </Link>
               {selectedHotel && <Link
@@ -63,7 +97,7 @@ function App(): JSX.Element {
             </Breadcrumbs>
           </Paper>
           <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '80%' }}>
-            {showOffers ? <Offers offers={offers} /> : <Hotels onViewOffers={showHotelOffers} hotels={hotels} />}
+            {renderResults()}
           </div>
         </Grid>
       </Grid>
