@@ -76,7 +76,7 @@ export const queryHotels = (query: z.infer<typeof hotelsBody>) => new Promise<an
     from Hotels a 
     inner join (
       select hotelid, min(price) as minhotprice 
-      from cleanoffers 
+      from cleanoffers FORCE INDEX (composite)
       where countadults = ${adults} and countchildren = ${kids} 
         and departuredate >= '${convertDate(from)}' and returndate <= '${convertDate(to)}' 
         and inboundarrivalairport='${airport}' and days = '${days}'
@@ -103,7 +103,7 @@ export const queryOffers = (query: z.infer<typeof hotelsBody>, hotelid: number) 
 
   connection.query<any[]>(
     `select * 
-    from cleanoffers FORCE INDEX (composite)
+    from cleanoffers FORCE INDEX (noprice)
     where countadults = ${adults} and countchildren = ${kids} 
       and departuredate >= '${convertDate(from)}' and returndate <= '${convertDate(to)}' 
       and inboundarrivalairport='${airport}' and days = '${days}'
