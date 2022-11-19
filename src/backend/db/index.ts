@@ -69,8 +69,8 @@ export const countOffers = () => new Promise<number>((resolve, reject) =>
 );
 
 export const queryHotels = (query: z.infer<typeof hotelsBody>) => new Promise<any[]>((resolve, reject) => {
-  const {adults, kids, from, to, days, airport, page} = query
-  
+  const { adults, kids, from, to, days, airport, page } = query
+
   connection.query<any[]>(
     `select * 
     from Hotels a 
@@ -99,11 +99,11 @@ export const queryHotels = (query: z.infer<typeof hotelsBody>) => new Promise<an
 
 
 export const queryOffers = (query: z.infer<typeof hotelsBody>, hotelid: number) => new Promise<any[]>((resolve, reject) => {
-  const {adults, kids, from, to, days, airport, page} = query
-  
+  const { adults, kids, from, to, days, airport, page } = query
+
   connection.query<any[]>(
     `select * 
-    from cleanoffers 
+    from cleanoffers FORCE INDEX (composite)
     where countadults = ${adults} and countchildren = ${kids} 
       and departuredate >= '${convertDate(from)}' and returndate <= '${convertDate(to)}' 
       and inboundarrivalairport='${airport}' and days = '${days}'

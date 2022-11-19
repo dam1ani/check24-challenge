@@ -30,9 +30,10 @@ function App(): JSX.Element {
       to: new Date('2022-09-03 06:15:00').toISOString(),
       airport: 'MUC',
       days: String(6),
-      page: String(1)
+      page: String(1),
+      hotelid: String(221)
     })
-    fetch('/api/get-hotels?' + params.toString()).then(r => {
+    fetch('/api/get-Offers?' + params.toString()).then(r => {
       r.json().then(j => console.log(j))
     })
   }, [])

@@ -1,6 +1,6 @@
 import express from 'express';
 import { processRequestQuery, TypedRequestBody, TypedRequestQuery, validateRequest, validateRequestQuery } from 'zod-express-middleware';
-import { countHotels, countOffers, getMinPrice, queryHotels } from '../db';
+import { countHotels, countOffers, getMinPrice, queryHotels, queryOffers } from '../db';
 import { hotelsBody } from '../schemas';
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router
     async (req, res) => {
       try {
         console.log(req.query);
-        const {adults, kids, from, to, days, airport, page} = req.query
+        const { adults, kids, from, to, days, airport, page } = req.query
         const parsed = {
           adults: Number(adults),
           kids: Number(kids),
@@ -31,6 +31,30 @@ router
         }
         const validated = hotelsBody.parse(parsed);
         const hotelsWithFirstOffer = await queryHotels(parsed);
+        res.status(200).json(hotelsWithFirstOffer);
+      } catch (e) {
+        res.status(500).send(e);
+      }
+    }
+  )
+  .get(
+    '/get-offers',
+    //validateRequestQuery(hotelsBody),
+    async (req, res) => {
+      try {
+        console.log(req.query);
+        const { adults, kids, from, to, days, airport, page, hotelid } = req.query
+        const parsed = {
+          adults: Number(adults),
+          kids: Number(kids),
+          from: new Date(from as string),
+          to: new Date(to as string),
+          days: Number(days),
+          airport: String(airport),
+          page: Number(page)
+        }
+        const validated = hotelsBody.parse(parsed);
+        const hotelsWithFirstOffer = await queryOffers(parsed, Number(hotelid));
         res.status(200).json(hotelsWithFirstOffer);
       } catch (e) {
         res.status(500).send(e);
