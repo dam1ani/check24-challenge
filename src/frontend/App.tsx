@@ -15,6 +15,7 @@ function App(): JSX.Element {
   const [showOffers, setShowOffers] = useState<boolean>(false);
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
+  const [selectedHotel, setSelectedHotel] = useState<string>('');
   const [searchParams, setSearchParams] = useState<SearchParams>({
     adults: 1,
     kids: 0,
@@ -31,6 +32,8 @@ function App(): JSX.Element {
 
   const showHotelOffers = async (hotelid: number) => {
     setOffers(await getOffers(searchParams, hotelid));
+    const hotel = hotels.find(h => h.id === hotelid);
+    if (hotel) setSelectedHotel(hotel.name)
     setShowOffers(true);
   }
   return (
@@ -48,17 +51,15 @@ function App(): JSX.Element {
         <Grid item xs={8} style={{ overflow: 'hidden', height: '100%' }}>
           <Paper style={{ margin: 20, padding: 20 }}>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" href="/">
+              <Link underline="hover" color="inherit" onClick={() => setShowOffers(false)}>
                 Hotels
               </Link>
-              <Link
+              {selectedHotel && <Link
                 underline="hover"
                 color="inherit"
-                href="/material-ui/getting-started/installation/"
               >
-                Core
-              </Link>
-              <Typography color="text.primary">Breadcrumbs</Typography>
+                {selectedHotel}
+              </Link>}
             </Breadcrumbs>
           </Paper>
           <div style={{ overflow: 'hidden', overflowY: 'scroll', height: '80%' }}>
