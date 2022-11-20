@@ -85,7 +85,11 @@ function App(): JSX.Element {
         <Grid item xs={8} style={{ overflow: 'hidden', height: '100%' }}>
           <Paper style={{ margin: 20, padding: 20 }}>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" onClick={() => setResultsState('hotels')}>
+              <Link underline="hover" color="inherit" onClick={() => {
+                setResultsState('hotels');
+                setSelectedHotel("");
+
+              }}>
                 Hotels
               </Link>
               {selectedHotel && <Link

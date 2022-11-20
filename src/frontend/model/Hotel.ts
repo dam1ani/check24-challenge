@@ -12,6 +12,7 @@ export interface Hotel {
   longitude: number;
   minhotprice: number;
   name: string;
+  img_url: string;
 }
 
 export type SearchParams = z.infer<typeof hotelsBody>;

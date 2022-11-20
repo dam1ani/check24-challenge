@@ -48,7 +48,7 @@ export const OfferCard: React.FC<OfferCardProps> =
         <Grid item xs={5} style={{ display: 'flex', justifyContent: 'space-evenly', flexDirection: 'column', height: '100%' }}>
           <span id="price"> {price} €</span>
 
-          <Button variant="contained" color="success" size="medium">
+          <Button onClick={() => { alert("Booked Successfully") }} variant="contained" color="success" size="medium">
             Book Now!
           </Button>
         </Grid>

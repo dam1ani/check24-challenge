@@ -17,12 +17,12 @@ interface HotelCardProps {
   onViewOffers: (hotelid: number) => void;
 }
 
-export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_stars, minhotprice, latitude, longitude, id }, onViewOffers }) => (
+export const HotelCard: React.FC<HotelCardProps> = ({ hotel: { name, category_stars, minhotprice, latitude, longitude, id, img_url }, onViewOffers }) => (
   <Card sx={{ display: 'flex' }} style={{ margin: 20 }}>
     <CardMedia
       component="img"
       sx={{ width: 1 / 4 }}
-      image="https://mui.com/static/images/cards/live-from-space.jpg"
+      image={img_url}
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
