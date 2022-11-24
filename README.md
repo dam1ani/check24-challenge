@@ -30,6 +30,5 @@
 1. Pagination
 
 ### Live Build hosted on Railway
-https://check24-challenge.up.railway.app/
-
+https://check24appholiday.herokuapp.com/
 
